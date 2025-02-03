@@ -1,3 +1,3 @@
 <template>
-    <img :src="asset('/assets/forump.svg')" />
+    <img src="/assets/forump.svg" />
 </template>
