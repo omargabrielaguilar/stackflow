@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,3 +26,7 @@ Route::middleware([
 });
 
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+
+Route::get('test', function () {
+    return User::find(1);
+});
