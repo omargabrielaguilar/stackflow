@@ -7,6 +7,6 @@ it('debe retornar el componente correcto', function () {
     get(route('post.index'))
         ->assertInertia(
             fn(AssertableInertia $inertia) => $inertia
-                ->component('Post/Index', true)
+            ->component('Posts/Index', true)
         );
 });
