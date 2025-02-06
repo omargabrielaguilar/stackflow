@@ -12,6 +12,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        //Es necesario trabajar con TDD(test driving development)
         return inertia('Posts/Index', []);
     }
 
