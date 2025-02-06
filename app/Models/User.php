@@ -38,12 +38,24 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
-        
+
+    // Tanto visible como hidden permite a json saber que campos vamos a mostrar como sin no! pero no es lo ideal: podemos scrap un website y obtener correos de dicha y hackearlos"
+
+    // Por eso es necesario trabajar con Recursos del API(api resources)
+
+    // protected $hidden = [
+    //     'password',
+    //     'remember_token',
+    //     'two_factor_recovery_codes',
+    //     'two_factor_secret',
+    //     'updated_at'
+    // ];
+
+    protected $visible = [
+        'id',
+        'name',
+        'email',
+        'updated_at'
     ];
 
     /**
