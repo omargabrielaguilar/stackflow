@@ -108,6 +108,11 @@ const logout = () => {
                                     </template>
                                 </Dropdown>
                             </div>
+                            <div v-else>
+                                <Link :href="route('login')">
+                                Login
+                                </Link>
+                            </div>
                         </div>
 
                         <!-- Hamburger -->
