@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -28,5 +29,5 @@ Route::middleware([
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 
 Route::get('test', function () {
-    return User::find(1);
+    return UserResource::make(User::find(11));
 });
