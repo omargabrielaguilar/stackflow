@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
@@ -25,6 +25,20 @@ const switchToTeam = (team) => {
 const logout = () => {
     router.post(route('logout'));
 };
+
+const menu = [
+    {
+        name: "Dashboard",
+        url: route('dashboard'),
+        route: 'dashboard',
+        when: () => usePage().props.auth.user,
+    },
+    {
+        name: "Posts",
+        url: route('posts.index'),
+        route: 'posts.index',
+    },
+];
 </script>
 
 <template>
@@ -49,9 +63,12 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
-                                </NavLink>
+                                <template v-for="item in menu" :key="item.name">
+                                    <NavLink v-if="item.when ? item.when() : true" :href="item.url"
+                                        :active="route().current(item.route)">
+                                        {{ item.name }}
+                                    </NavLink>
+                                </template>
                             </div>
                         </div>
 
@@ -60,11 +77,15 @@ const logout = () => {
                             <div v-if="$page.props.auth.user" class="relative ms-3">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
-                                        <button v-if="$page.props.jetstream.managesProfilePhotos"
+                                        <button v-if="
+                                            $page.props.jetstream
+                                                .managesProfilePhotos
+                                        "
                                             class="flex text-sm transition border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
-                                            <img class="object-cover rounded-full size-8"
-                                                :src="$page.props.auth.user.profile_photo_url"
-                                                :alt="$page.props.auth.user.name">
+                                            <img class="object-cover rounded-full size-8" :src="$page.props.auth.user
+                                                .profile_photo_url
+                                                " :alt="$page.props.auth.user.name
+                                                    " />
                                         </button>
 
                                         <span v-else class="inline-flex rounded-md">
@@ -92,8 +113,10 @@ const logout = () => {
                                             Profile
                                         </DropdownLink>
 
-                                        <DropdownLink v-if="$page.props.jetstream.hasApiFeatures"
-                                            :href="route('api-tokens.index')">
+                                        <DropdownLink v-if="
+                                            $page.props.jetstream
+                                                .hasApiFeatures
+                                        " :href="route('api-tokens.index')">
                                             API Tokens
                                         </DropdownLink>
 
@@ -109,9 +132,7 @@ const logout = () => {
                                 </Dropdown>
                             </div>
                             <div v-else>
-                                <Link :href="route('login')">
-                                Login
-                                </Link>
+                                <Link :href="route('login')"> Login </Link>
                             </div>
                         </div>
 
@@ -119,15 +140,22 @@ const logout = () => {
                         <div class="flex items-center -me-2 sm:hidden">
                             <button
                                 class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
-                                @click="showingNavigationDropdown = !showingNavigationDropdown">
+                                @click="
+                                    showingNavigationDropdown =
+                                    !showingNavigationDropdown
+                                    ">
                                 <svg class="size-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        :class="{ 'hidden': showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown }"
-                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    <path :class="{
+                                        hidden: showingNavigationDropdown,
+                                        'inline-flex':
+                                            !showingNavigationDropdown,
+                                    }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 6h16M4 12h16M4 18h16" />
-                                    <path
-                                        :class="{ 'hidden': !showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
-                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    <path :class="{
+                                        hidden: !showingNavigationDropdown,
+                                        'inline-flex':
+                                            showingNavigationDropdown,
+                                    }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
@@ -136,8 +164,10 @@ const logout = () => {
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div :class="{ 'block': showingNavigationDropdown, 'hidden': !showingNavigationDropdown }"
-                    class="sm:hidden">
+                <div :class="{
+                    block: showingNavigationDropdown,
+                    hidden: !showingNavigationDropdown,
+                }" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
@@ -147,9 +177,11 @@ const logout = () => {
                     <!-- Responsive Settings Options -->
                     <div v-if="$page.props.auth.user" class="pt-4 pb-1 border-t border-gray-200">
                         <div class="flex items-center px-4">
-                            <div v-if="$page.props.jetstream.managesProfilePhotos" class="shrink-0 me-3">
-                                <img class="object-cover rounded-full size-10"
-                                    :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
+                            <div v-if="
+                                $page.props.jetstream.managesProfilePhotos
+                            " class="shrink-0 me-3">
+                                <img class="object-cover rounded-full size-10" :src="$page.props.auth.user.profile_photo_url
+                                    " :alt="$page.props.auth.user.name" />
                             </div>
 
                             <div>
@@ -188,8 +220,11 @@ const logout = () => {
                                 </div>
 
                                 <!-- Team Settings -->
-                                <ResponsiveNavLink :href="route('teams.show', $page.props.auth.user.current_team)"
-                                    :active="route().current('teams.show')">
+                                <ResponsiveNavLink :href="route(
+                                    'teams.show',
+                                    $page.props.auth.user.current_team
+                                )
+                                    " :active="route().current('teams.show')">
                                     Team Settings
                                 </ResponsiveNavLink>
 
@@ -199,19 +234,27 @@ const logout = () => {
                                 </ResponsiveNavLink>
 
                                 <!-- Team Switcher -->
-                                <template v-if="$page.props.auth.user.all_teams.length > 1">
+                                <template v-if="
+                                    $page.props.auth.user.all_teams.length >
+                                    1
+                                ">
                                     <div class="border-t border-gray-200" />
 
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         Switch Teams
                                     </div>
 
-                                    <template v-for="team in $page.props.auth.user.all_teams" :key="team.id">
+                                    <template v-for="team in $page.props.auth.user
+                                        .all_teams" :key="team.id">
                                         <form @submit.prevent="switchToTeam(team)">
                                             <ResponsiveNavLink as="button">
                                                 <div class="flex items-center">
-                                                    <svg v-if="team.id == $page.props.auth.user.current_team_id"
-                                                        class="text-green-400 me-2 size-5"
+                                                    <svg v-if="
+                                                        team.id ==
+                                                        $page.props.auth
+                                                            .user
+                                                            .current_team_id
+                                                    " class="text-green-400 me-2 size-5"
                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
