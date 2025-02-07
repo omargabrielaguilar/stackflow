@@ -26,14 +26,12 @@
             </div>
             <div>
                 <nav class="inline-flex -space-x-px rounded-md shadow-xs isolate" aria-label="Pagination">
-                    <a v-for="link in meta.links" :href="link.url" class="relative inline-flex items-center px-2 py-2 "
-                        :class="{
+                    <Link v-for="link in meta.links" :href="link.url"
+                        class="relative inline-flex items-center px-2 py-2 " :class="{
                             'z-10 bg-indigo-600 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600': link.active,
                             'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0': !link.active
-                        }" v-html="link.label">
-                    </a>
-
-
+}" v-html="link.label" preserve-scroll>
+                    </Link>
                 </nav>
             </div>
         </div>
@@ -42,7 +40,7 @@
 
 <script setup>
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
-
+import { Link } from '@inertiajs/vue3';
 defineProps(['meta']);
 
 
