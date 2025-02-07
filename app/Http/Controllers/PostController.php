@@ -13,9 +13,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //Es necesario trabajar con TDD(test driving development)
+        // Es necesario trabajar con TDD(test driving development)
         return inertia('Posts/Index', [
-            'posts' => PostResource::collection(Post::all()),
+            'posts' => PostResource::collection(Post::paginate()),
         ]);
     }
 
