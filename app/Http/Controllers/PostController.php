@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class PostController extends Controller
     {
         //Es necesario trabajar con TDD(test driving development)
         return inertia('Posts/Index', [
-            'posts' => Post::all(),
+            'posts' => PostResource::collection(Post::all()),
         ]);
     }
 
