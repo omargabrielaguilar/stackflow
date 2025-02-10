@@ -13,6 +13,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        ray()->showQueries();
         // Es necesario trabajar con TDD(test driving development)
         return inertia('Posts/Index', [
             'posts' => PostResource::collection(Post::paginate()),
